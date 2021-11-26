@@ -12,13 +12,13 @@ public class ExtendedFlycam : MonoBehaviour
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
 
-    private TerrainGenerator myGen;
+    private newTerrainGenerator myGen;
     private TexturizeTerrain myTexturizer;
     private bool isActive = false;
 
     private void Start()
     {
-        myGen = FindObjectOfType<TerrainGenerator>();
+        myGen = FindObjectOfType<newTerrainGenerator>();
         myTexturizer = FindObjectOfType<TexturizeTerrain>();
     }
 
