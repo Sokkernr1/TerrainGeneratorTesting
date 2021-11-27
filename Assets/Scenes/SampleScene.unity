@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &79135599
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -438,8 +438,8 @@ GameObject:
   - component: {fileID: 1557071959}
   - component: {fileID: 1557071958}
   - component: {fileID: 1557071957}
-  - component: {fileID: 1557071956}
   - component: {fileID: 1557071960}
+  - component: {fileID: 1557071956}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -454,32 +454,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557071955}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a4af1332458a4686926736296c980c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 923c45a133ae54d40b0e794049d2f53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blurRadius: 0
-  heightmap: {fileID: 2800000, guid: 069849e65f53b4971ad45d9a4a4671d3, type: 3}
-  height: 100
-  scale: 20
-  randomizeHills: 0
-  offsetX: 0
-  offsetY: 0
-  thresholdMapFlat: 0.6
-  thresholdMapNoise: 0.9
-  threshold01: 0.5
-  threshold02: 0.65
-  thresholdForcedSand: 0.81
-  heightMapGround0: 0
-  heightMapFlat: 0.4
-  height1f: 0.5
-  height2f: 0.6
-  WaterHeight: 0.96
-  terrain: {fileID: 0}
-  width: 0
-  lenght: 0
-  map: []
+  wallTexture: {fileID: 2800000, guid: b4ed286eabb8e413fb7f5b2a8994a1ed, type: 3}
+  beachTexture: {fileID: 2800000, guid: 49abe3288f23c43afad12c568adc4a31, type: 3}
+  groundTextureF1: {fileID: 2800000, guid: ed12e2cfcf2eb4e94963dfb48c9992f8, type: 3}
+  groundTextureF2: {fileID: 2800000, guid: aa81c8991c5c94ac58606b086a01ea3d, type: 3}
+  groundTextureF3: {fileID: 2800000, guid: b4ed286eabb8e413fb7f5b2a8994a1ed, type: 3}
+  testTexture: {fileID: 2800000, guid: 069849e65f53b4971ad45d9a4a4671d3, type: 3}
 --- !u!154 &1557071957
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -550,13 +535,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa5f2dae1ef44126a36ec70544ef444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale: 10
+  seaFloorHeight: 0
+  beachThreshold: 0
+  beachHeight: 0.2
+  noiseThreshold: 0.1
+  noiseHeight: 0.2
+  f1Threshold: 0.5
+  f1Height: 0.3
+  f2Threshold: 0.7
+  f2Height: 0.4
+  islandNoiseScale: 10
+  hillNoiseScale: 20
   height: 50
-  randomizeHills: 0
-  offsetX: 0
+  randomizeHills: 1
+  offsetX: -2142
   offsetY: 0
   updateSpeed: 10
-  scrolling: 1
+  scrolling: 0
   terrain: {fileID: 0}
   width: 512
   lenght: 512
