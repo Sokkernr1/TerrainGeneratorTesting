@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &79135599
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -304,13 +304,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,10 +461,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallTexture: {fileID: 2800000, guid: b4ed286eabb8e413fb7f5b2a8994a1ed, type: 3}
   beachTexture: {fileID: 2800000, guid: 49abe3288f23c43afad12c568adc4a31, type: 3}
-  groundTextureF1: {fileID: 2800000, guid: ed12e2cfcf2eb4e94963dfb48c9992f8, type: 3}
-  groundTextureF2: {fileID: 2800000, guid: aa81c8991c5c94ac58606b086a01ea3d, type: 3}
-  groundTextureF3: {fileID: 2800000, guid: b4ed286eabb8e413fb7f5b2a8994a1ed, type: 3}
+  grassHeightTexture: {fileID: 2800000, guid: ed12e2cfcf2eb4e94963dfb48c9992f8, type: 3}
+  groundTextureF1: {fileID: 2800000, guid: aa81c8991c5c94ac58606b086a01ea3d, type: 3}
+  groundTextureF2: {fileID: 2800000, guid: b4ed286eabb8e413fb7f5b2a8994a1ed, type: 3}
   testTexture: {fileID: 2800000, guid: 069849e65f53b4971ad45d9a4a4671d3, type: 3}
+  withWallTextures: 1
+  normalVectorValue: 0.95
 --- !u!154 &1557071957
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -537,9 +539,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seaFloorHeight: 0
   beachThreshold: 0
-  beachHeight: 0.2
-  noiseThreshold: 0.1
-  noiseHeight: 0.2
+  beachHeight: 0.195
+  grassThreshold: 0.1
+  grassHeight: 0.2
+  noiseThreshold: 0.2
   f1Threshold: 0.5
   f1Height: 0.3
   f2Threshold: 0.7
@@ -548,12 +551,11 @@ MonoBehaviour:
   hillNoiseScale: 20
   height: 50
   randomizeHills: 1
-  offsetX: -2142
+  offsetX: 0
   offsetY: 0
-  updateSpeed: 10
-  scrolling: 0
   terrain: {fileID: 0}
   width: 512
   lenght: 512
   powHandler: 1.7
   sqrtHandler: 0.1
+  terrainRecheckRuns: 5

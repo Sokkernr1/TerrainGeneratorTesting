@@ -7,9 +7,9 @@ public class TexturizeTerrain : MonoBehaviour
 {
     [SerializeField]private Texture2D wallTexture;
     [SerializeField]private Texture2D beachTexture;
+    [SerializeField]private Texture2D grassHeightTexture;
     [SerializeField]private Texture2D groundTextureF1;
     [SerializeField]private Texture2D groundTextureF2;
-    [SerializeField]private Texture2D groundTextureF3;
 	[SerializeField]private Texture2D testTexture;
 	[SerializeField]private bool withWallTextures = true;
 	[SerializeField]private float normalVectorValue = 0.95f;
@@ -73,13 +73,13 @@ public class TexturizeTerrain : MonoBehaviour
         newTextures[1].diffuseTexture = beachTexture;
 
         newTextures[2] = new TerrainLayer();
-        newTextures[2].diffuseTexture = groundTextureF1;
+        newTextures[2].diffuseTexture = grassHeightTexture;
 
         newTextures[3] = new TerrainLayer();
-        newTextures[3].diffuseTexture = groundTextureF2;
+        newTextures[3].diffuseTexture = groundTextureF1;
 
         newTextures[4] = new TerrainLayer();
-        newTextures[4].diffuseTexture = groundTextureF3;
+        newTextures[4].diffuseTexture = groundTextureF2;
 
 		newTextures[5] = new TerrainLayer();
         newTextures[5].diffuseTexture = testTexture;

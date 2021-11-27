@@ -30,6 +30,7 @@ public class newTerrainGenerator : MonoBehaviour
 
 	[SerializeField]private float powHandler = 1.7f;
 	[SerializeField]private float sqrtHandler = 0.1f;
+	[SerializeField]private int terrainRecheckRuns = 5;
 
 	[HideInInspector]public int[,] textureArray;
 
@@ -149,62 +150,67 @@ public class newTerrainGenerator : MonoBehaviour
 	float[,] ReCheckTerrain(float[,] heights)
     {
         int siblings;
-        for (int x = 1; x < width - 1; x++)
-        {
-            for (int y = 1; y < lenght - 1; y++)
-            {
-                siblings = 8;
+		for(int i =0; i < terrainRecheckRuns; i++){
+			for (int x = 1; x < width - 1; x++)
+			{
+				for (int y = 1; y < lenght - 1; y++)
+				{
+					siblings = 8;
 
-                if (heights[x, y] > heights[x - 1, y])
-                {
-                    siblings--;
-                }
-                if (heights[x, y] > heights[x - 1, y - 1])
-                {
-                    siblings--;
-                }
-                if (heights[x, y] > heights[x, y - 1])
-                {
-                    siblings--;
-                }
-                if (heights[x, y] > heights[x + 1, y - 1])
-                {
-                    siblings--;
-                }
-                if (heights[x, y] > heights[x + 1, y])
-                {
-                    siblings--;
-                }
-                if (heights[x, y] > heights[x + 1, y + 1])
-                {
-                    siblings--;
-                }
-                if (heights[x, y] > heights[x, y + 1])
-                {
-                    siblings--;
-                }
-                if (heights[x, y] > heights[x - 1, y + 1])
-                {
-                    siblings--;
-                }
-                if (siblings <= 2)
-                {
+					if (heights[x, y] > heights[x - 1, y])
+					{
+						siblings--;
+					}
+					if (heights[x, y] > heights[x - 1, y - 1])
+					{
+						siblings--;
+					}
+					if (heights[x, y] > heights[x, y - 1])
+					{
+						siblings--;
+					}
+					if (heights[x, y] > heights[x + 1, y - 1])
+					{
+						siblings--;
+					}
+					if (heights[x, y] > heights[x + 1, y])
+					{
+						siblings--;
+					}
+					if (heights[x, y] > heights[x + 1, y + 1])
+					{
+						siblings--;
+					}
+					if (heights[x, y] > heights[x, y + 1])
+					{
+						siblings--;
+					}
+					if (heights[x, y] > heights[x - 1, y + 1])
+					{
+						siblings--;
+					}
+					if (siblings <= 2)
+					{
 
-                    if (heights[x, y] == grassHeight)
-                    {
-                        heights[x, y] = seaFloorHeight;
-                    }
-                    else if (heights[x, y] == f1Height)
-                    {
-                        heights[x, y] = beachHeight;
-                    }
-                    else if (heights[x, y] == f2Height)
-                    {
-                        heights[x, y] = f1Height;
-                    }
-                }
-            }
-        }
+						if (heights[x, y] == grassHeight)
+						{
+							heights[x, y] = seaFloorHeight;
+							textureArray[x,y] = 1;
+						}
+						else if (heights[x, y] == f1Height)
+						{
+							heights[x, y] = beachHeight;
+							textureArray[x,y] = 1;
+						}
+						else if (heights[x, y] == f2Height)
+						{
+							heights[x, y] = f1Height;
+							textureArray[x,y] = 3;
+						}
+					}
+				}
+			}
+		}
         return heights;
     }
 
