@@ -410,7 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraSensitivity: 90
   climbSpeed: 4
-  normalMoveSpeed: 10
+  normalMoveSpeed: 50
   slowMoveFactor: 0.25
   fastMoveFactor: 3
 --- !u!114 &963194230
@@ -465,6 +465,7 @@ MonoBehaviour:
   groundTextureF1: {fileID: 2800000, guid: aa81c8991c5c94ac58606b086a01ea3d, type: 3}
   groundTextureF2: {fileID: 2800000, guid: b4ed286eabb8e413fb7f5b2a8994a1ed, type: 3}
   testTexture: {fileID: 2800000, guid: 069849e65f53b4971ad45d9a4a4671d3, type: 3}
+  blurRadius: 1
   withWallTextures: 1
   normalVectorValue: 0.95
 --- !u!154 &1557071957
@@ -537,25 +538,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa5f2dae1ef44126a36ec70544ef444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seaFloorHeight: 0
   beachThreshold: 0
-  beachHeight: 0.195
-  grassThreshold: 0.1
-  grassHeight: 0.2
+  grassThreshold: 0.125
   noiseThreshold: 0.2
   f1Threshold: 0.5
-  f1Height: 0.3
   f2Threshold: 0.7
+  seaFloorHeight: 0
+  beachHeight: 0.195
+  grassHeight: 0.2
+  f1Height: 0.3
   f2Height: 0.4
+  randomizeHills: 1
   islandNoiseScale: 10
   hillNoiseScale: 20
-  height: 50
-  randomizeHills: 1
   offsetX: 0
   offsetY: 0
-  terrain: {fileID: 0}
-  width: 512
-  lenght: 512
   powHandler: 1.7
   sqrtHandler: 0.1
-  terrainRecheckRuns: 5
+  height: 50
+  terrain: {fileID: 0}
+  terrainDimension: 512
+  recheckCount: 5

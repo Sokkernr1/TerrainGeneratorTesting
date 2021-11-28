@@ -19,7 +19,7 @@ public class newTerrainGenerator : MonoBehaviour
 	[Header("Perlin Settings")]
 	[SerializeField]private bool randomizeHills = true;
     [SerializeField]private int islandNoiseScale = 10;
-	[SerializeField]private int hillNoiseScale = 25;
+	[SerializeField]private int hillNoiseScale = 20;
     [SerializeField]private float offsetX = 0f;
     [SerializeField]private float offsetY = 0f;
 	[SerializeField]private float powHandler = 1.7f;
