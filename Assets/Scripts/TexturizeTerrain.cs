@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class TexturizeTerrain : MonoBehaviour
 {
+    [Header("Textures")]
     [SerializeField]private Texture2D wallTexture;
     [SerializeField]private Texture2D beachTexture;
     [SerializeField]private Texture2D grassHeightTexture;
     [SerializeField]private Texture2D groundTextureF1;
     [SerializeField]private Texture2D groundTextureF2;
 	[SerializeField]private Texture2D testTexture;
+
+    [Header("Parameters")]
+    [SerializeField][Range(0,3)]private int blurRadius = 0;
 	[SerializeField]private bool withWallTextures = true;
 	[SerializeField]private float normalVectorValue = 0.95f;
 
@@ -36,10 +40,8 @@ public class TexturizeTerrain : MonoBehaviour
 
         float[,,] splatMapData = terrainData.GetAlphamaps(0, 0, alphamapRes, alphamapRes);
 
-		Debug.Log(alphamapRes);
-		
-		for(int x = 0; x < textureArray.GetLength(0); x++){
-			for(int y = 0; y < textureArray.GetLength(1); y++){
+		for(int x = 1; x < textureArray.GetLength(0); x++){
+			for(int y = 1; y < textureArray.GetLength(1); y++){
 				SetSplatValue(splatMapData, x, y, textureArray[x,y]);
 			}
 		}
@@ -58,7 +60,7 @@ public class TexturizeTerrain : MonoBehaviour
 				}
 			}
 		}
-        // BlurSplatMap(splatMapData);
+        BlurSplatMap(splatMapData);
         terrainData.SetAlphamaps(0, 0, splatMapData);
     }
 
@@ -112,41 +114,41 @@ public class TexturizeTerrain : MonoBehaviour
         }
     }
 
-    // void BlurSplatMap(float[,,] splats)
-    // {
-	// 	int ic = 0;
-    //     if (!(FindObjectOfType<TerrainGenerator>().blurRadius == 0))
-    //     {
-    //         for (int y = 0; y < splats.GetLength(0); y++)
-    //         {
-    //             for (int x = 0; x < splats.GetLength(1); x++)
-    //             {
-	// 				if(	terrainData.GetInterpolatedHeight((float)x / alphamapRes, (float)y / alphamapRes) > ((myGen.heightMapFlat / 2) * myGen.height) &&
-	// 					terrainData.GetInterpolatedHeight((float)x / alphamapRes, (float)y / alphamapRes) < (((myGen.height2f - myGen.height1f) / 2) + myGen.height1f) * myGen.height) {
+    void BlurSplatMap(float[,,] splats)
+    {
+		int ic = 0;
+        if (blurRadius != 0)
+        {
+            for (int y = 0; y < splats.GetLength(0); y++)
+            {
+                for (int x = 0; x < splats.GetLength(1); x++)
+                {
+					if(	terrainData.GetInterpolatedHeight((float)x / alphamapRes, (float)y / alphamapRes) > ((myGen.beachHeight / 2) * myGen.height) &&
+						terrainData.GetInterpolatedHeight((float)x / alphamapRes, (float)y / alphamapRes) < (((myGen.f2Height - myGen.grassHeight) / 2) + myGen.grassHeight) * myGen.height) {
 
-    //                 	float[] c = new float[splats.GetLength(2)];
-    //                 	float[] cr = new float[splats.GetLength(2)];
-    //                 	float[] cl = new float[splats.GetLength(2)];
-    //                 	float[] cu = new float[splats.GetLength(2)];
-    //                 	float[] cd = new float[splats.GetLength(2)];
+                    	float[] c = new float[splats.GetLength(2)];
+                    	float[] cr = new float[splats.GetLength(2)];
+                    	float[] cl = new float[splats.GetLength(2)];
+                    	float[] cu = new float[splats.GetLength(2)];
+                    	float[] cd = new float[splats.GetLength(2)];
 
-    //                 	for (int i = 0; i < c.Length; i++)
-    //                 	{
-	// 						ic++;
-    //                     	c[i] = splats[y, x, i];
-    //                     	cr[i] = splats[y, Mathf.Clamp(x + FindObjectOfType<TerrainGenerator>().blurRadius, 0, splats.GetLength(1) - 1), i];
-    //                     	cl[i] = splats[y, Mathf.Clamp(x - FindObjectOfType<TerrainGenerator>().blurRadius, 0, splats.GetLength(1) - 1), i];
-    //                     	cu[i] = splats[Mathf.Clamp(y - FindObjectOfType<TerrainGenerator>().blurRadius, 0, splats.GetLength(0) - 1), x, i];
-    //                     	cd[i] = splats[Mathf.Clamp(y + FindObjectOfType<TerrainGenerator>().blurRadius, 0, splats.GetLength(0) - 1), x, i];
-    //                     	c[i] = (c[i] + cr[i] + cl[i] + cu[i] + cd[i]) / 5;
-    //                     	splats[y, x, i] = c[i];
-    //                 	}
-	// 				}
-    //             }
-    //         }
-    //     }
-	// 	Debug.Log(ic + " calculations done for texture smoothing");
-    // }
+                    	for (int i = 0; i < c.Length; i++)
+                    	{
+							ic++;
+                        	c[i] = splats[y, x, i];
+                        	cr[i] = splats[y, Mathf.Clamp(x + blurRadius, 0, splats.GetLength(1) - 1), i];
+                        	cl[i] = splats[y, Mathf.Clamp(x - blurRadius, 0, splats.GetLength(1) - 1), i];
+                        	cu[i] = splats[Mathf.Clamp(y - blurRadius, 0, splats.GetLength(0) - 1), x, i];
+                        	cd[i] = splats[Mathf.Clamp(y + blurRadius, 0, splats.GetLength(0) - 1), x, i];
+                        	c[i] = (c[i] + cr[i] + cl[i] + cu[i] + cd[i]) / 5;
+                        	splats[y, x, i] = c[i];
+                    	}
+					}
+                }
+            }
+        }
+		Debug.Log(ic + " calculations done for texture smoothing");
+    }
 
     //Unused currently + outdated
     public int GetTerrainTexture(Vector2 origin)

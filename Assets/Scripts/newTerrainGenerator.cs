@@ -5,32 +5,33 @@ using UnityEngine;
 public class newTerrainGenerator : MonoBehaviour
 {
 	[Header("Heights & Threshholds")]
-	[SerializeField]private float seaFloorHeight = 0f;
 	[SerializeField]private float beachThreshold = 0f;
-	[SerializeField]private float beachHeight = 0.195f;
-	[SerializeField]private float grassThreshold = 0.1f;
-	[SerializeField]private float grassHeight = 0.2f;
-	[SerializeField]private float noiseThreshold = 0.15f;
+	[SerializeField]private float grassThreshold = 0.125f;
+	[SerializeField]private float noiseThreshold = 0.2f;
 	[SerializeField]private float f1Threshold = 0.5f;
-	[SerializeField]private float f1Height = 0.3f;
 	[SerializeField]private float f2Threshold = 0.7f;
-	[SerializeField]private float f2Height = 0.4f;
+	public float seaFloorHeight = 0f;
+	public float beachHeight = 0.195f;
+	public float grassHeight = 0.2f;
+	public float f1Height = 0.3f;
+	public float f2Height = 0.4f;
 
-    [Header("General Settings")]
-    [SerializeField]private int islandNoiseScale = 10;
-	[SerializeField]private int hillNoiseScale = 20;
-	[SerializeField]private int height = 50;
+	[Header("Perlin Settings")]
 	[SerializeField]private bool randomizeHills = true;
+    [SerializeField]private int islandNoiseScale = 10;
+	[SerializeField]private int hillNoiseScale = 25;
     [SerializeField]private float offsetX = 0f;
     [SerializeField]private float offsetY = 0f;
-
-    [HideInInspector]public Terrain terrain;
-    [SerializeField]private int width = 512;
-    [SerializeField]private int lenght = 512;
-
 	[SerializeField]private float powHandler = 1.7f;
 	[SerializeField]private float sqrtHandler = 0.1f;
-	[SerializeField]private int terrainRecheckRuns = 5;
+
+    [Header("General Settings")]
+	public int height = 50;
+    [HideInInspector]public Terrain terrain;
+	[Tooltip("Has to be a ^2 number (i.e. 64, 128, 256, 512, etc)")]
+    [SerializeField]private int terrainDimension = 512;
+	[SerializeField]private int recheckCount = 5;
+
 
 	[HideInInspector]public int[,] textureArray;
 
@@ -39,11 +40,19 @@ public class newTerrainGenerator : MonoBehaviour
         InitiateTerrain();
     }
 
+	public IEnumerator WaitForLoadingscreen()
+    {
+        yield return new WaitForSeconds(0.1f);
+        Debug.Log("Waited for loadingscreen");
+        InitiateTerrain();
+        StopCoroutine(WaitForLoadingscreen());
+    }
+
     public void InitiateTerrain()
     {
         terrain = GetComponent<Terrain>();
 
-		textureArray = new int[width - 1, lenght - 1];
+		textureArray = new int[terrainDimension - 1, terrainDimension - 1];
 
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
     }
@@ -56,9 +65,10 @@ public class newTerrainGenerator : MonoBehaviour
             offsetY = Random.Range(-99999f, 99999f);
         }
 
-        terrainData.heightmapResolution = width + 1;
+        terrainData.heightmapResolution = terrainDimension + 1;
+		terrainData.alphamapResolution = terrainDimension;
 
-        terrainData.size = new Vector3(width, height, lenght);
+        terrainData.size = new Vector3(terrainDimension, height, terrainDimension);
 
         terrainData.SetHeights(0, 0, GenerateHeights());
 
@@ -67,11 +77,11 @@ public class newTerrainGenerator : MonoBehaviour
 
     float[,] GenerateHeights()
     {
-        float[,] heights = new float[width , lenght];
+        float[,] heights = new float[terrainDimension , terrainDimension];
 
-        for(int x = 0; x < width - 1; x++)
+        for(int x = 1; x < terrainDimension - 1; x++)
         {
-            for(int y = 0; y < lenght - 1; y++)
+            for(int y = 1; y < terrainDimension - 1; y++)
             {
 				float d = CalculateCenterDistance(x, y);
 				float e = Mathf.Pow(CalculateElevation(x, y), powHandler);
@@ -90,8 +100,8 @@ public class newTerrainGenerator : MonoBehaviour
     }
 
 	float GetNeutralNosieHeight(int x, int y){
-		float xCoord = ((float)x / width - 0.5f) * hillNoiseScale - offsetX;
-        float yCoord = ((float)y / lenght - 0.5f) * hillNoiseScale - offsetY;
+		float xCoord = ((float)x / terrainDimension - 0.5f) * hillNoiseScale - offsetX;
+        float yCoord = ((float)y / terrainDimension - 0.5f) * hillNoiseScale - offsetY;
 
 		float perlinHeight = Mathf.PerlinNoise(xCoord, yCoord);
 
@@ -129,15 +139,15 @@ public class newTerrainGenerator : MonoBehaviour
 
     float CalculateElevation(int x,int y)
     {
-        float xCoord = ((float)x / width - 0.5f) * islandNoiseScale + offsetX;
-        float yCoord = ((float)y / lenght - 0.5f) * islandNoiseScale + offsetY;
+        float xCoord = ((float)x / terrainDimension - 0.5f) * islandNoiseScale + offsetX;
+        float yCoord = ((float)y / terrainDimension - 0.5f) * islandNoiseScale + offsetY;
 
 		return Mathf.PerlinNoise(xCoord, yCoord);
     }
 
 	float CalculateCenterDistance(float x, float y) {
-		float nx = x / width - 0.5f;
-		float ny = y / lenght - 0.5f;
+		float nx = x / terrainDimension - 0.5f;
+		float ny = y / terrainDimension - 0.5f;
 
 		return Mathf.Sqrt(nx * nx + ny * ny) / Mathf.Sqrt(sqrtHandler); //Euclidean distance
 	}
@@ -150,10 +160,10 @@ public class newTerrainGenerator : MonoBehaviour
 	float[,] ReCheckTerrain(float[,] heights)
     {
         int siblings;
-		for(int i =0; i < terrainRecheckRuns; i++){
-			for (int x = 1; x < width - 1; x++)
+		for(int i = 0; i<recheckCount;i++){
+			for (int x = 1; x < terrainDimension - 1; x++)
 			{
-				for (int y = 1; y < lenght - 1; y++)
+				for (int y = 1; y < terrainDimension - 1; y++)
 				{
 					siblings = 8;
 

@@ -49,7 +49,7 @@ public class TerrainGenerator : MonoBehaviour
     //Unused currently
     public IEnumerator WaitForLoadingscreen()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         Debug.Log("Waited for loadingscreen");
         InitiateTerrain();
         StopCoroutine(WaitForLoadingscreen());
@@ -218,7 +218,7 @@ public class TerrainGenerator : MonoBehaviour
         return terrain.terrainData.GetInterpolatedNormal((float)origin.y / terrain.terrainData.alphamapResolution, (float)origin.x / terrain.terrainData.alphamapResolution).y;
     }
 
-    //Unused currently + outdated
+    //Needed
     public List<Vector3> getTerrainList(int layer123, bool secondLayer,int layer23)
     {
         List<Vector3> myList = new List<Vector3>();
